@@ -1,0 +1,128 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>홈텍스 외부 로그인</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript">
+	
+	//sessionMap
+	var txprDscmNo = "";
+	var bmanOfbDt = "";
+	var etxivPkcYn = "";
+	var txofOgzCd = "";
+	var lgnUserClCd = "";
+	var txprDscmNoCnfrYn = "";
+	var haboCl = "";
+	var ntplBmanAthYn = "";
+	var charId = "";
+	var smprYn = "";
+	var pubcUserNo = "";
+	var thofOgzCd = "";
+	var tin = "";
+	var bmanUnitEngeTrerJnngYn = "";
+	var txprClsfCd = "";
+	var userClsfCd = "";
+	var dprtUserYn = "";
+	var txpAgnYn = "";
+	var cnvrTin = "";
+	var afaTxprYn = "";
+	var ssnAltPsbYn = "";
+	var mpbNo = "";
+	var lgnClientIp = "";
+	var userId = "";
+	var chrgDutsCd = "";
+	var dataMaagClCd = "";
+	var crpBmanAthYn = "";
+	var lgnCertCd = "";
+	var txaaYn = "";
+	var whlPmtMnpt = "";
+	var ntplAthYn = "";
+	var userNm = "";
+	//serverProperty
+	var ssoStatus = "";
+	var systemDiv = "";
+	var ssnChkFlag = "";
+	var systemCode = "";
+	var serverType = "";
+	var portalStatus = "";
+
+
+	function getSession(){
+	//응답 본문 : <map id='' ><pswd>8BC288A26D782DE8B6DAED8C326741C74C0F3EE6396DFA66E227B85DA2433847</pswd><map id='resultMsg' ><detailMsg></detailMsg><msg></msg><code></code><result>S</result></map></map>
+	var headers = {};
+		headers["Accept"] = "application/xml; charset=UTF-8";
+		headers["Cache-Control"] = "no-cache";
+		headers["Connection"] = "Keep-Alive";
+		headers["Content-Type"] = "application/xml; charset=UTF-8";
+		headers["Referer"] = "https://www.hometax.go.kr/websquare/websquare.wq?w2xPath=/ui/comm/a/b/UTXPPABA01.xml&w2xHome=/ui/pp/&w2xDocumentRoot=";
+		headers["User-Agent"] = "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0)";
+			
+		$.ajax({
+			url : "https://www.hometax.go.kr/wqAction.do?actionId=ATXPPABA001R07&screenId=UTXPPABA01&popupYn=false&realScreenId=",
+			headers : headers,
+			type : "POST",
+			dataType: "xml",
+			data : "<map id=\"ATXPPABA001R07\"><pswd>ITcwNjU3NDVh</pswd></map>",
+			success: function(xml) {
+               getPswd(xml);
+            }
+		});
+		
+	}
+	
+	function getPswd(xml){
+	
+	//리턴값 : "nts_loginSystemCallback('TXPP', { 'code' : 'S', 'errCode' : null, 'errMsg' : decodeURIComponent('').replace(/\\+/g,' ').replace(/\\\\n/g,'\\n'), 'lgnRsltCd' : '01', 'pswdErrNbcnt' : '0', 'tin' : '000000153902630645', 'secCardId' : null});"
+
+	//url :"https://www.hometax.go.kr/pubcLogin.do?domain=hometax.go.kr&mainSys=Y"
+	var headers = {};
+		headers["Accept"] = "application/xml; charset=UTF-8";
+		headers["Cache-Control"] = "no-cache";
+		headers["Connection"] = "Keep-Alive";
+		headers["Content-Type"] = "application/xml; charset=UTF-8";
+		headers["Referer"] = "https://www.hometax.go.kr/websquare/websquare.wq?w2xPath=/ui/comm/a/b/UTXPPABA01.xml&w2xHome=/ui/pp/&w2xDocumentRoot=";
+		headers["User-Agent"] = "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0)";
+	
+	var sessionInfoJson = new Object();
+		   sessionInfoJson.cncClCd = "01";
+		   sessionInfoJson.id = encodeURIComponent("eWlhY2FkaQ==");
+		   sessionInfoJson.portalStatus = "";
+		   sessionInfoJson.pswd = encodeURIComponent("OEJDMjg4QTI2RDc4MkRFOEI2REFFRDhDMzI2NzQxQzc0QzBGM0VFNjM5NkRGQTY2RTIyN0I4NURBMjQzMzg0Nw==");
+		   sessionInfoJson.scrnId = "UTXPPABA01";
+		   sessionInfoJson.secCardId = "";
+		   sessionInfoJson.secCardLoginYn = "";
+		   sessionInfoJson.ssoLoginYn = "Y";
+		   sessionInfoJson.ssoStatus = "";
+		   sessionInfoJson.userScrnRslnXcCnt = "2560";
+		   sessionInfoJson.userScrnRslnYcCnt = "1440";
+	
+		$.ajax({
+			url : "https://www.hometax.go.kr/pubcLogin.do?domain=hometax.go.kr&mainSys=Y",
+			headers : headers,
+			type : "POST",
+			dataType: "json",
+			data : sessionInfoJson,
+			success: function(xml) {
+               setUserInfo(xml);
+            }
+		});
+	}
+	
+	function setUserInfo(xml){
+		//요청 본문 <map id='postParam'><popupYn></popupYn></map>
+		
+		console.log(xml);
+	
+	}
+	
+</script>
+</head>
+<body style="text-align:center">
+	<div>
+		<input type="text" id="userId" value=""/>
+		<input type="text" id="userPw" value=""/>
+		<input type="button" onclick="javascript:getSession();"/>
+	</div>	
+</body>
+</html>	
