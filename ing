@@ -130,7 +130,7 @@
 				console.log(tin)
 				getToken();
             } 
- 		}); 
+ 		});
  	}
 	
 	function getToken(){
@@ -169,16 +169,7 @@
 			//headers["Cache-Control"] = "no-cache"; 
 			headers["Content-Type"] = "application/xml; charset=UTF-8"; 
 			//headers["Referer"] = "https://teht.hometax.go.kr/websquare/websquare.html?w2xPath=/ui/rn/a/a/a/a/UTERNAAT32.xml";
-		
-		$.ajax({ 
- 			url : "https://teht.hometax.go.kr/permission.do?screenId=UTERNAAT32&domain=hometax.go.kr", 
- 			headers : headers, 
- 			type : "POST",
- 			data : "<map id='postParam'>" + ssoToken + "<popupYn>false</popupYn></map>", 
- 			success: function(xml) { 
-                //$("#textview").text(xml);
-            }
- 		});
+	
 		
 		$.ajax({ 
  			url : "https://teht.hometax.go.kr/wqAction.do?actionId=ATERNABA134R02&screenId=UTERNAAT32&popupYn=false&realScreenId=UTERNAAT32", 
@@ -192,6 +183,26 @@
  		}); 
 		
 	}
+	
+	function createTehtSession(){
+		//요청본문 : <map id='postParam'><ssoToken></ssoToken><userClCd>02</userClCd><popupYn>false</popupYn></map>
+		//Referer: https://teht.hometax.go.kr/websquare/websquare.html?w2xPath=/ui/rn/a/a/a/a/UTERNAAT32.xml
+		//요청 URL: https://teht.hometax.go.kr/permission.do?screenId=UTERNAAT32&domain=hometax.go.kr
+		var headers = {}; 
+			//headers["Cache-Control"] = "no-cache"; 
+			headers["Content-Type"] = "application/xml; charset=UTF-8"; 
+			headers["Referer"] = "https://teht.hometax.go.kr/websquare/websquare.html?w2xPath=/ui/rn/a/a/a/a/UTERNAAT32.xml";
+		$.ajax({ 
+ 			url : "https://teht.hometax.go.kr/permission.do?screenId=UTERNAAT32", 
+ 			headers : headers, 
+ 			type : "POST",
+ 			dataType : "xml", 
+ 			data : "<map id=\"postParam\"><ssoToken>"+ssoToken+"</ssoToken><userClCd>02</userClCd><popupYn>false</popupYn></map>", 
+ 			success: function(xml) { 
+				getTotalTaxHelp();
+            } 
+ 		}); 
+	}
  </script> 
  </head> 
  <body style="text-align:center"> 
@@ -201,9 +212,9 @@
  		<input type="button" value="로그인" onclick="javascript:getSession();"/>
 		<select id="year" name="year">
 			<option value="2017" select>2017</option>
-			<option value="2017">2016</option>
+			<option value="2016">2016</option>
 		</select>
-		<input type="button" value="종소세신고도움" onclick="javascript:getTotalTaxHelp();"/>
+		<input type="button" value="종소세신고도움" onclick="javascript:createTehtSession();"/>
 		<textarea id="textview"></textarea>
  	</div>	 
  </body> 
